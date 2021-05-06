@@ -1,0 +1,10 @@
+.settings
+target
+/common/.classpath
+.project
+.classpath
+.idea/*
+*.iml
+*.DS_Store
+.factorypath
+logs
