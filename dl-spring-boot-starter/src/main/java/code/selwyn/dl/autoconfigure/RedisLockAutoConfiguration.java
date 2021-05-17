@@ -20,7 +20,7 @@ import java.util.UUID;
  * @since 2021/5/6
  */
 @ConditionalOnClass(value={RedissonAutoConfiguration.class, SimpleRedisLock.class})
-@AutoConfigureAfter(RedissonAutoConfiguration.class)
+@AutoConfigureAfter({RedissonAutoConfiguration.class, CustomDistributedLockConfiguration.class})
 public class RedisLockAutoConfiguration {
 
     @Bean
