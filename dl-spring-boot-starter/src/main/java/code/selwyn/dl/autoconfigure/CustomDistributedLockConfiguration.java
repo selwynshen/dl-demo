@@ -14,6 +14,7 @@ import com.github.alturkovic.lock.retry.DefaultRetriableLockFactory;
 import com.github.alturkovic.lock.retry.DefaultRetryTemplateConverter;
 import com.github.alturkovic.lock.retry.RetriableLockFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -31,6 +32,13 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
  */
 @AutoConfigureAfter(WebMvcAutoConfiguration.class)
 public class CustomDistributedLockConfiguration {
+
+    @Bean("dlConversionService")
+    //@ConditionalOnMissingBean
+    public ConversionService conversionService() {
+        return new DefaultConversionService();
+    }
+
     @Bean
     @ConditionalOnMissingBean
     public LockBeanPostProcessor lockBeanPostProcessor(final KeyGenerator keyGenerator,
@@ -57,7 +65,7 @@ public class CustomDistributedLockConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public KeyGenerator spelKeyGenerator(final ConversionService conversionService) {
+    public KeyGenerator spelKeyGenerator(@Qualifier("dlConversionService") final ConversionService conversionService) {
         return new SpelKeyGenerator(conversionService);
     }
 
@@ -65,12 +73,6 @@ public class CustomDistributedLockConfiguration {
     @ConditionalOnMissingBean
     public LockTypeResolver lockTypeResolver(final ConfigurableBeanFactory configurableBeanFactory) {
         return configurableBeanFactory::getBean;
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public ConversionService conversionService() {
-        return new DefaultConversionService();
     }
 
     @Bean
