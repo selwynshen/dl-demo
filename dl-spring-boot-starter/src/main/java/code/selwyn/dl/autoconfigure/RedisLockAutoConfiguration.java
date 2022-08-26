@@ -1,7 +1,4 @@
-/**
- * Hrfax Inc.
- * Copyright (c) 2020-2066 All Rights Reserved.
- */
+
 package code.selwyn.dl.autoconfigure;
 
 import code.selwyn.dl.impl.SimpleRedisLock;
